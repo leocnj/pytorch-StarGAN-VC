@@ -58,7 +58,7 @@ class Generator(nn.Module):
             Down2d(32, 64, (4,8), (2,2), (1,3)),
             Down2d(64, 128, (4,8), (2,2), (1,3)),
             Down2d(128, 64, (3,5), (1,1), (1,2)),
-            Down2d(64, 5, (9,5), (9,1), (1,2))
+            Down2d(64, 5, (9,5), (9,1), (0,2))
         )
 
         
@@ -139,9 +139,9 @@ class DomainClassifier(nn.Module):
     def __init__(self):
         super(DomainClassifier, self).__init__()
         self.main = nn.Sequential(
-            Down2d(1, 8, (4,4), (2,2), (5,1)),
+            Down2d(1, 8, (4,4), (2,2), (1,1)),
             Down2d(8, 16, (4,4), (2,2), (1,1)),
-            Down2d(16, 32, (4,4), (2,2), (0,1)),
+            Down2d(16, 32, (4,4), (2,2), (1,1)),
             Down2d(32, 16, (3,4), (1,2), (1,1)),
             nn.Conv2d(16, 4, (1,4), (1,2), (0,1)),
             nn.AvgPool2d((1,16))
@@ -169,14 +169,14 @@ if __name__ == '__main__':
 
     # u1 = Up2d(1,32,1,2,1)
     # print(u1(t).shape)
-    # G = Generator()
-    # o1 = G(t, l)
-    # print(o1.shape)
+    G = Generator()
+    o1 = G(t, l)
+    print(o1.shape)
     
     D = Discriminator()
     o2 = D(t, l)
     print(o2.shape, o2)
 
-    # C = DomainClassifier()
-    # o3 = C(t)
-    # print(o3.shape)
+    C = DomainClassifier()
+    o3 = C(t)
+    print(o3.shape)
